@@ -10,35 +10,101 @@
 </head>
 
 <body>
+<div id="header" >
+<button onclick="fnstart()">Start</button>
 
-<p id="header" onclick="start()">Click me to start the Game</p>
+<p id="gamecontrols" display: none;>
+<b>Timer:</b>
+<lable id="timer">
+</lable>
 
-<div id="canvas" > <pre id='t2'> Welcome to an interesting game of numbers	</pre> </div>
+<b>Current Time:</b>
+<lable  id="currentTime">
+</lable>
+
+<b>Wrong Attempts:</b>
+<lable  id="wrongAttempts">
+</lable>
+
+</p>
+
+
+</div>
+
+<div id="canvas" >
+	<pre id='t2'> Welcome to an interesting game of numbers	
+
+	</pre> 
+</div>
 
 <div id="gamecontrol"> </div>
 
 <script>
+
+
+function startTimer(){
+	var timer=0;
+	setInterval(function(){document.getElementById("timer").innerHTML = ++timer + "secs"},1000);
+	var myVar=setInterval(function(){myTimer()},1000);
+}
+
+
+var previousNumber = -1;
+
+
+
+
+function myTimer() {
+    var d = new Date();
+    document.getElementById("currentTime").innerHTML = d.toLocaleTimeString();
+}
+var wrongAttempts=0;
+
+function fnNumberClick(elmnt) {
+    var currentNum = parseInt(elmnt.innerHTML);
+
+	if(previousNumber == -1 && currentNum==0){
+		elmnt.style.color = 'blue';
+		elmnt.style.background = 'grey';
+		previousNumber=currentNum;
+	}else{
+		//alert("Please click the lowest number to start");
+		wrongAttempts ++ ;
+		document.getElementById("wrongAttempts").innerHTML = wrongAttempts;
+	}
+
+	if(previousNumber != -1 && (previousNumber+1) == currentNum){
+		elmnt.style.color = 'blue';
+		elmnt.style.background = 'grey';
+		previousNumber = currentNum;
+	}else if(previousNumber != -1 ){
+		//alert("Hint: your previous Number was: "+previousNumber);
+		wrongAttempts ++ ;
+		document.getElementById("wrongAttempts").innerHTML = wrongAttempts;
+	}
+    
+   // alert(elmnt.innerHTML);
+}
+
 var randomGeneratedSeries = "";
-function start() {
-    document.getElementById("header").innerHTML = "Game start time"+ new Date();
-
-
+function fnstart() {
+    
+    //document.getElementById("gamecontrols").display="TRUE"
+    startTimer();
     randomGeneratedSeries = "";
     buildCanvas();
 }
-
+var fontTag = "<font onclick='fnNumberClick(this)''>?</font>";
 function buildCanvas(){
 	var canvasString = "<pre id='t2'> ";
 	var gridSize = 0;
 
-	/*var tempStr = "00, 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, ";
-
-	alert(tempStr.length);*/
+	
 	for(index=0;index<100;index++){
 		//canvasString = canvasString +"<input type = button name='"+ index +"' value='"+ index +"'/>";
 		
 		// for adding random numbers in canvas
-		canvasString = canvasString +/*index*/ fngenerateNumber()  +"\t";
+		canvasString = canvasString +/*index*/ fontTag.replace('?', fngenerateNumber())  +"\t";
 		
 		// for adding number in a sequence in the canvas
 		//canvasString = canvasString + index + ", ";
