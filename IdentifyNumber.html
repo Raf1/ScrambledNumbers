@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<link rel="stylesheet" type="text/css" href="game.css">
+
+<style type="text/css">
+
+</style>
+</head>
+
+<body>
+
+<p id="header" onclick="start()">Click me to start the Game</p>
+
+<div id="canvas" > <pre id='t2'> Welcome to an interesting game of numbers	</pre> </div>
+
+<div id="gamecontrol"> </div>
+
+<script>
+var randomGeneratedSeries = "";
+function start() {
+    document.getElementById("header").innerHTML = "Game start time"+ new Date();
+
+
+    randomGeneratedSeries = "";
+    buildCanvas();
+}
+
+function buildCanvas(){
+	var canvasString = "<pre id='t2'> ";
+	var gridSize = 0;
+
+	/*var tempStr = "00, 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, ";
+
+	alert(tempStr.length);*/
+	for(index=0;index<100;index++){
+		//canvasString = canvasString +"<input type = button name='"+ index +"' value='"+ index +"'/>";
+		
+		// for adding random numbers in canvas
+		canvasString = canvasString +/*index*/ fngenerateNumber()  +"\t";
+		
+		// for adding number in a sequence in the canvas
+		//canvasString = canvasString + index + ", ";
+
+
+		// logic for setting the grid size
+		gridSize++;
+
+		if(gridSize == 10){
+			gridSize = 0;
+			canvasString = canvasString + "<br>"
+		}
+	}
+	canvasString = canvasString + "</pre>";
+    document.getElementById("canvas").innerHTML = canvasString;
+
+}
+
+function fngenerateNumber(){
+	
+	var randomNumber = "";
+	while(true){
+		randomNumber = fnrandomNumber();
+		
+		if(randomGeneratedSeries.search(randomNumber) == -1){
+			//alert( randomNumber);
+			randomGeneratedSeries = randomGeneratedSeries + randomNumber + ", ";
+			//document.getElementById("gamecontrol").innerHTML = randomGeneratedSeries;
+			return randomNumber;
+		}else {
+			//alert("Random number"+randomNumber + "series:"+randomGeneratedSeries);
+			if(randomGeneratedSeries.length>=400){
+				alert("Random number"+randomNumber + "series:"+randomGeneratedSeries);
+				break;
+			}
+		}
+		
+	}
+	
+}
+
+function fnrandomNumber(){
+	// number within 100 exclusive
+	var random = Math.random() * 100;
+	random = Math.floor(random);
+	random = ""+random;
+	if(random.length==1){
+		random = "0"+random;
+	}
+	return random;
+}
+</script>
+
+</body>
+</html> 

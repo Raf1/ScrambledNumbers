@@ -1,0 +1,17 @@
+div {
+   text-align: center;
+}
+
+button{
+	height: 10;
+	width: 10;
+}
+
+#t2 {
+    -moz-tab-size: 10; /* Code for Firefox */
+    -o-tab-size: 10; /* Code for Opera 10.6-12.1 */
+    tab-size: 10;
+    font-family: cursive;
+    font-size: 30;
+    font-style: italic;
+}
