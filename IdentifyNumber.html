@@ -11,54 +11,82 @@
 
 <body>
 <div id="header" >
+
+
 <button onclick="fnstart()">Start</button>
 
-<p id="gamecontrols" display: none;>
-<b>Timer:</b>
-<lable id="timer">
-</lable>
+<div id="gamecontrolDiv">
+	<p id="gamecontrols">
+		<b>Duration:</b>
+		<lable id="mins">
+		</lable>
+		<lable id="Secs">
+		</lable>
 
-<b>Current Time:</b>
-<lable  id="currentTime">
-</lable>
+		<b>Current Time:</b>
+		<lable  id="currentTime">
+		</lable>
 
-<b>Wrong Attempts:</b>
-<lable  id="wrongAttempts">
-</lable>
+		<b>Wrong Attempts:</b>
+		<lable  id="wrongAttempts">
+		</lable>
 
-</p>
+		<button onclick="fnstop()">Stop</button>
+	</p>
 
-
+</div>
 </div>
 
 <div id="canvas" >
-	<pre id='t2'> Welcome to an interesting game of numbers	
+	<pre id='t2'> Welcome to an interesting game of numbers
+
+		<b>Instructions</b>
+		1. Start identifying numbers in the scrambled grid. 
+		2. Start from 00 to 99. 
+		3. Don't miss any character numbers and follow the sequence
 
 	</pre> 
 </div>
 
-<div id="gamecontrol"> </div>
+
+<div id="gameSummary"> </div>
 
 <script>
 
 
 function startTimer(){
-	var timer=0;
-	setInterval(function(){document.getElementById("timer").innerHTML = ++timer + "secs"},1000);
-	var myVar=setInterval(function(){myTimer()},1000);
+	myCountTimerVar = setInterval(function(){fntimer();},1000);
+	myCurrentTimerVar = setInterval(function(){myTimer()},1000);
 }
 
+function fntimer(){
+	++secTimer;
+	secTimer = secTimer % 60;
+	
+	if(secTimer == 0){
+		minsTimer++;
+	}
 
+	document.getElementById("Secs").innerHTML = secTimer + " secs";
+	document.getElementById("mins").innerHTML = minsTimer + " mins";
+
+}
+
+var myCountTimerVar = null;
+var myCurrentTimerVar = null;
+var minsTimer=0;
+var secTimer=0;
 var previousNumber = -1;
-
-
-
+var wrongAttempts=0;
+var randomGeneratedSeries = "";
+var fontTag = "<font onclick='fnNumberClick(this)''>?</font>";
+var successIdentifiedNos = 0;
 
 function myTimer() {
     var d = new Date();
     document.getElementById("currentTime").innerHTML = d.toLocaleTimeString();
 }
-var wrongAttempts=0;
+
 
 function fnNumberClick(elmnt) {
     var currentNum = parseInt(elmnt.innerHTML);
@@ -67,34 +95,57 @@ function fnNumberClick(elmnt) {
 		elmnt.style.color = 'blue';
 		elmnt.style.background = 'grey';
 		previousNumber=currentNum;
-	}else{
-		//alert("Please click the lowest number to start");
+		successIdentifiedNos ++;
+	}else if(previousNumber == -1){
 		wrongAttempts ++ ;
-		document.getElementById("wrongAttempts").innerHTML = wrongAttempts;
+		fnSetWrongAttempt();
 	}
 
 	if(previousNumber != -1 && (previousNumber+1) == currentNum){
 		elmnt.style.color = 'blue';
 		elmnt.style.background = 'grey';
 		previousNumber = currentNum;
-	}else if(previousNumber != -1 ){
+		successIdentifiedNos ++;
+	}else if(previousNumber != -1){
 		//alert("Hint: your previous Number was: "+previousNumber);
 		wrongAttempts ++ ;
-		document.getElementById("wrongAttempts").innerHTML = wrongAttempts;
+		fnSetWrongAttempt();
 	}
-    
-   // alert(elmnt.innerHTML);
+
+	if(successIdentifiedNos>99){
+		fnstop();
+	}
 }
 
-var randomGeneratedSeries = "";
+
+function fnSetWrongAttempt(){
+	document.getElementById("wrongAttempts").innerHTML = wrongAttempts;
+}
+
 function fnstart() {
-    
-    //document.getElementById("gamecontrols").display="TRUE"
+    minsTimer=0;
+	secTimer=0;
+	previousNumber = -1;
+	wrongAttempts=0;
+	randomGeneratedSeries = "";
+	fnSetWrongAttempt();
+	document.getElementById("gameSummary").innerHTML = "";
+    document.getElementById("gamecontrolDiv").style.display = 'block';
     startTimer();
     randomGeneratedSeries = "";
     buildCanvas();
 }
-var fontTag = "<font onclick='fnNumberClick(this)''>?</font>";
+
+function fnstop(){
+
+	/* alert("Stoping Game"); */
+	clearTimeout(myCountTimerVar);
+	clearTimeout(myCurrentTimerVar);
+	document.getElementById("gameSummary").innerHTML = "<P> Game Over!!! </p>";
+
+}
+
+
 function buildCanvas(){
 	var canvasString = "<pre id='t2'> ";
 	var gridSize = 0;
