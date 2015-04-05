@@ -7,6 +7,10 @@ button{
 	width: 10;
 }
 
+body{
+    background-color: #999999;
+   
+}
 #gamecontrolDiv{
     display:none
 }
@@ -15,11 +19,10 @@ button{
     -moz-tab-size: 10; /* Code for Firefox */
     -o-tab-size: 10; /* Code for Opera 10.6-12.1 */
     tab-size: 10;
-    font-family: fantasy;
-    font-size: 30;
+    font-family: -webkit-body;
+    /*font-size: 30;*/
     font-style: italic;
     text-shadow: 2px 2px #D3D3D3; 
-     
 }
 
 #gamecontrols{

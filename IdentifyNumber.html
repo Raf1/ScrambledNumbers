@@ -37,13 +37,21 @@
 </div>
 </div>
 
-<div id="canvas" >
-	<pre id='t2'> Welcome to an interesting game of numbers
+<div id="instrucitons" >
+ 
+ 
+	Welcome to an interesting game of numbers</br>
 
-		<b>Instructions</b>
+		<b>Instructions:</b>
 		1. Start identifying numbers in the scrambled grid. 
-		2. Start from 00 to 99. 
+		2. Start from 00 to 99.
 		3. Don't miss any character numbers and follow the sequence
+
+	
+</div>
+
+<div id="canvas" >
+	<pre id='t2'> 
 
 	</pre> 
 </div>
@@ -79,7 +87,7 @@ var secTimer=0;
 var previousNumber = -1;
 var wrongAttempts=0;
 var randomGeneratedSeries = "";
-var fontTag = "<font onclick='fnNumberClick(this)''>?</font>";
+var fontTag = "<font size='5' onclick='fnNumberClick(this)''>?</font>";
 var successIdentifiedNos = 0;
 
 function myTimer() {
